@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "vitest",
         "dev": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\"",
         "build": "npm run build --prefix client",
         "start": "concurrently \"npm run preview --prefix client\" \"npm run start --prefix server\""
@@ -21,6 +21,7 @@
     },
     "homepage": "https://github.com/emarkchrome/cen3031-group-project#readme",
     "devDependencies": {
-        "concurrently": "^9.0.1"
+        "concurrently": "^9.0.1",
+        "vitest": "^2.1.1"
     }
 }
