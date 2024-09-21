@@ -22,9 +22,13 @@ jobs:
             - node/install-packages:
                   pkg-manager: npm
             - run:
-                command: npm i --prefix client
-                command: npm i --prefix server
+                  name: Install client packages
+                  command: npm i --prefix client
             - run:
+                  name: Install server packages
+                  command: npm i --prefix server
+            - run:
+                  name: Build client
                   command: npm run build
             - run:
                   name: Create the ~/artifacts directory if it doesn't exist
