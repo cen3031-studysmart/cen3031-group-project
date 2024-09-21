@@ -12,6 +12,12 @@ jobs:
             - node/install-packages:
                   pkg-manager: npm
             - run:
+                  name: Install client packages
+                  command: npm i --prefix client
+            - run:
+                  name: Install server packages
+                  command: npm i --prefix server
+            - run:
                   name: Run tests
                   command: npm run test
     build-node:
