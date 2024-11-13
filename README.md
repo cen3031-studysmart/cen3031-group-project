@@ -87,6 +87,23 @@ function BackendAPIRequest() {
 }
 ```
 
+### Adding a New Route
+
+* In `/client/src/main.jsx`, you can add/edit new routes by adding an entry to the `routes` array. For example, this is how to add a new route `/help` defined by the component `<Help />`:
+```
+import Help from '...';
+
+const router = createBrowserRouter([
+    [...]
+    {
+        path: '/help',
+        element: <Help />,
+    },
+    [...]
+]);
+
+```
+
 ---
 
 # Note
