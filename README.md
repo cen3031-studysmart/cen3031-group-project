@@ -9,7 +9,7 @@ Welcome to the **StudySmart** repository! This project is being developed by the
 - [System Architecture](#system-architecture)
 - [Development Setup](#development-setup)
 - [Team Members](#team-members)
-- [Documentation and Examples](#documentation)
+- [Documentation and Examples](#documentation-and-examples)
 
 ## Project Overview
 **StudySmart** aims to help students in higher education or intensive learning programs create effective study aids such as flashcards, practice questions, and summaries from their uploaded materials. This solution helps reduce the time spent on crafting study aids, so that students can dedicate more time to mastering the content and reinforcing their learning.
