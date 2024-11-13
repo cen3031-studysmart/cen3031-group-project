@@ -9,6 +9,7 @@ Welcome to the **StudySmart** repository! This project is being developed by the
 - [System Architecture](#system-architecture)
 - [Development Setup](#development-setup)
 - [Team Members](#team-members)
+- [Documentation and Examples](#documentation)
 
 ## Project Overview
 **StudySmart** aims to help students in higher education or intensive learning programs create effective study aids such as flashcards, practice questions, and summaries from their uploaded materials. This solution helps reduce the time spent on crafting study aids, so that students can dedicate more time to mastering the content and reinforcing their learning.
@@ -52,6 +53,39 @@ The StudySmart web application follows a **Microservices Architecture** for scal
   - Emmanuel Nifakos
   - Alvaro Flores
   - Dylan Everett
+
+## Documentation and Examples
+
+### Writing API Endpoint
+
+```
+app.get('/api/message', (_, res) => {
+    res.send({ message: 'Hello!' });
+});
+```
+
+### Backend API Request
+
+```
+function BackendAPIRequest() {
+    const [message, setMessage] = React.useState('');
+
+    React.useEffect(() => {
+        async function getMessage() {
+            const request = await fetch('http://localhost:3000/api/message');
+            const msg = await request.json();
+            setMessage(msg.message);
+        }
+        getMessage();
+    });
+
+    return (
+        <div>
+            <p>API Response: {message}</p>
+        </div>
+    );
+}
+```
 
 ---
 
