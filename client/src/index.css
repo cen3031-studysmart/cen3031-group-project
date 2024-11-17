@@ -1,4 +1,10 @@
-:root {
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
@@ -68,7 +74,7 @@ button:focus-visible {
 }
 
 /* For formatting code in documentation */
-pre {
+/* pre {
     background: #f4f4f4;
     border: 1px solid #ddd;
     border-left: 3px solid #f36d33;
@@ -83,4 +89,4 @@ pre {
     padding: 1em 1.5em;
     display: block;
     word-wrap: break-word;
-}
+} */ */
