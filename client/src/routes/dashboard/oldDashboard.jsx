@@ -10,7 +10,7 @@ import QuizModal from "../../components/modal/QuizModal";
 import "./Dashboard.css";
 import { summarizePDF } from "../../apis/openai";
 
-function Dashboard() {
+function OldDashboard() {
   const navigate = useNavigate();
   const [pdfSummary, setPdfSummary] = React.useState("");
   const [pdfFlashcards, setPdfFlashcards] = React.useState([]);
@@ -72,15 +72,27 @@ function Dashboard() {
         </div>
       </div>
 
-      <Modal show={showSummaryModal} onClose={handleCloseModal} title="PDF Summary">
+      <Modal
+        show={showSummaryModal}
+        onClose={handleCloseModal}
+        title="PDF Summary"
+      >
         <p>{pdfSummary}</p>
       </Modal>
 
-      <FlashcardModal show={showFlashcardModal} onClose={handleCloseModal} flashcards={pdfFlashcards} />
+      <FlashcardModal
+        show={showFlashcardModal}
+        onClose={handleCloseModal}
+        flashcards={pdfFlashcards}
+      />
 
-      <QuizModal show={showQuizModal} onClose={handleCloseModal} quiz={pdfQuiz} />
+      <QuizModal
+        show={showQuizModal}
+        onClose={handleCloseModal}
+        quiz={pdfQuiz}
+      />
     </>
   );
 }
 
-export default Dashboard;
+export default OldDashboard;
