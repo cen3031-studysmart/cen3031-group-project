@@ -106,7 +106,6 @@ const UploadDashboard = () => {
       userId: 1, //TODO: Replace with actual userId
     };
 
-    //TODO: Sent to DB to Save
     saveStudyContent(contentToSave);
 
     console.log("Saving content:", contentToSave);
