@@ -15,7 +15,7 @@ import {
   TabsTrigger,
 } from "../../components/ui/tabs";
 import { Lock, Mail, User } from "lucide-react";
-import { useSignIn } from "@clerk/clerk-react";
+import { useSignIn, useSignUp } from "@clerk/clerk-react";
 import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
@@ -26,6 +26,7 @@ const LoginPage = () => {
   const [signupName, setSignupName] = useState("");
   const [error, setError] = useState("");
   const { isLoaded, signIn } = useSignIn();
+  const { signUp } = useSignUp();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -49,10 +50,27 @@ const LoginPage = () => {
 
   };
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    // Implement signup logic
-    console.log("Signup attempt:", signupEmail, signupName);
+
+    try {
+      const numWordsInName = signupName.split(' ').length;
+      const firstName = signupName.split(' ').slice(0, numWordsInName - 1);
+      const lastName = signupName.split(' ').slice(numWordsInName - 1, numWordsInName);
+
+      const signUpObject = await signUp.create({
+        firstName: firstName,
+        lastName: lastName,
+        emailAddress: signupEmail,
+        password: signupPassword
+      });
+
+      if (signUpObject.status = 'complete') {
+        navigate('/');
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
