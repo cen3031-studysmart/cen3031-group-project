@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
-import { useUser, UserButton } from "@clerk/clerk-react";
+import { Link, useNavigate } from "react-router-dom";
+import { useClerk } from "@clerk/clerk-react";
 import {
   Card,
   CardContent,
@@ -25,7 +25,8 @@ import {
 import "./Header.css";
 
 function Header() {
-  // const { isSignedIn, user, isLoaded } = useUser();
+  const clerk = useClerk();
+  const navigate = useNavigate();
 
   return (
     <div className="border-b">
@@ -35,7 +36,16 @@ function Header() {
             <GraduationCap className="h-8 w-8 mr-2" />
             <span className="text-2xl font-bold">StudyBuddies</span>
           </div>
-          <Button variant="outline">Sign Out</Button>
+          {clerk.user?
+            <Button variant="outline" onClick={() => {
+              clerk.signOut();
+              navigate('/login');
+            }}>Sign Out</Button>
+            :
+            <Link to="/login">
+              <Button>Sign In</Button>
+            </Link>
+          }
         </div>
       </div>
     </div>
