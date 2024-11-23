@@ -15,6 +15,8 @@ import {
   TabsTrigger,
 } from "../../components/ui/tabs";
 import { Lock, Mail, User } from "lucide-react";
+import { useSignIn } from "@clerk/clerk-react";
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
   const [loginEmail, setLoginEmail] = useState("");
@@ -22,11 +24,29 @@ const LoginPage = () => {
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
   const [signupName, setSignupName] = useState("");
+  const [error, setError] = useState("");
+  const { isLoaded, signIn } = useSignIn();
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Implement login logic
-    console.log("Login attempt:", loginEmail);
+
+    try {
+      const signInObject = await signIn.create({
+        strategy: 'password',
+        identifier: loginEmail,
+        password: loginPassword,
+      });
+
+      console.log(signInObject.status);
+      if (signInObject.status = 'complete') {
+        navigate('/');
+      }
+
+    } catch (e) {
+      console.error(e);
+    }
+
   };
 
   const handleSignup = (e) => {
