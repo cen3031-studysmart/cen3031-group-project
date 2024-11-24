@@ -62,11 +62,22 @@ export async function createUser(userId) {
     }
 }
 
-        connection.close();
+/**
+ * Creates a generated summary in the database
+ * @param {string} title - Title of the summary
+ * @param {string} owner - The user ID to whom the summary belongs
+ * @param {string} content - Content of the summary
+ */
+export async function createSummary(title, owner, content) {
+    let connection;
+    try {
+        connection = await createConnection();
 
+        await connection.execute(sql`INSERT INTO "EMMANUELNIFAKOS".studysmart_summary (title, owner, content) VALUES (${title}, ${owner}, ${content})`);
+        await connection.commit();
     } catch (e) {
         console.error(e);
-        console.error(`User id ${userId} could not be created`);
+    } finally {
+        await connection.close();
     }
 }
-
