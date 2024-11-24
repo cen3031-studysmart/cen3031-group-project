@@ -25,6 +25,8 @@ const connectString = 'oracle.cise.ufl.edu:1521/orcl';
 async function createConnection() {
     try {
         const connection = await db.getConnection({ user, password, connectString });
+        // Note from Emmanuel: Let me know if you don't have privileges to execute this line
+        await connection.execute(sql`ALTER SESSION SET nls_date_format = 'DD-Mon-YYYY HH24:MI:SS';`)
         return connection;
     } catch (e) {
         console.error(e);
