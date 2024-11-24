@@ -47,8 +47,10 @@ export async function createUser(userId) {
         throw new Error('The argument userId must be between 1 and 100 characters.');
     }
 
+    let connection;
     try {
-        const connection = await createConnection();
+        connection = await createConnection();
+
         await connection.execute(sql`INSERT INTO "EMMANUELNIFAKOS".studysmart_user VALUES (${userId}, CURRENT_DATE)`);
         await connection.commit();
     } catch (e) {
