@@ -81,3 +81,27 @@ export async function createSummary(title, owner, content) {
         await connection.close();
     }
 }
+
+/**
+ * @typedef {{ question: string, answer: string }} Flashcard
+ */
+
+/**
+ * Creates a flashcard deck in the database
+ * @param {string} title - Title of the summary
+ * @param {string} owner - The user ID to whom the summary belongs
+ * @param {Flashcard[]} content - Flashcards in JSON format
+ */
+export async function createFlashcardDeck(title, owner, content) {
+    let connection;
+    try {
+        connection = await createConnection();
+
+        await connection.execute(sql`INSERT INTO "EMMANUELNIFAKOS".studysmart_flashcard_deck (title, owner, content) VALUES (${title}, ${owner}, ${content})`);
+        await connection.commit();
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await connection.close();
+    }
+}
