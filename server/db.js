@@ -49,13 +49,12 @@ export async function createUser(userId) {
 
     try {
         const connection = await createConnection();
-
         await connection.execute(sql`INSERT INTO "EMMANUELNIFAKOS".studysmart_user VALUES (${userId}, CURRENT_DATE)`);
         await connection.commit();
-        await connection.close();
-
     } catch (e) {
         console.error(e);
+    } finally {
+        await connection.close();
     }
 }
 
