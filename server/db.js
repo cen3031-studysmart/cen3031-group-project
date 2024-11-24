@@ -105,3 +105,27 @@ export async function createFlashcardDeck(title, owner, content) {
         await connection.close();
     }
 }
+
+/**
+ * @typedef {{ question: string, options: string[], answer: string }} QuizQuestion
+ */
+
+/**
+ * Creates a quiz in the database
+ * @param {string} title - Title of the summary
+ * @param {string} owner - The user ID to whom the summary belongs
+ * @param {QuizQuestion[]} content - Flashcards in JSON format
+ */
+export async function createQuiz(title, owner, content) {
+    let connection;
+    try {
+        connection = await createConnection();
+
+        await connection.execute(sql`INSERT INTO "EMMANUELNIFAKOS".studysmart_quiz (title, owner, content) VALUES (${title}, ${owner}, ${content})`);
+        await connection.commit();
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await connection.close();
+    }
+}
