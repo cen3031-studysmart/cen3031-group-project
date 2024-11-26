@@ -129,3 +129,47 @@ export async function createQuiz(title, owner, content) {
         await connection.close();
     }
 }
+
+/**
+ * @typedef {{ summaries: string, flashcards: string, quizzes: string }} UserData
+ */
+
+/**
+ * Returns all user data, including quizzes, summaries, and flashcard decks
+ * @param {string} userId - ID of the user
+ * @return {UserData} userData - User's summaries, flashcard decks, and quizzes
+ */
+export async function getUserData(userId) {
+    let connection;
+    try {
+        connection = await createConnection();
+
+        const summaries = (await connection.execute(sql`SELECT JSON_OBJECT(*) FROM studysmart_summary WHERE owner = ${userId}`)).rows;
+        const flashcards = (await connection.execute(sql`SELECT JSON_OBJECT(*) FROM studysmart_flashcard_deck WHERE owner = ${userId}`)).rows;
+        const quizzes = (await connection.execute(sql`SELECT JSON_OBJECT(*) FROM studysmart_quiz WHERE owner = ${userId}`)).rows;
+
+        return normalizeUserPropertyNames(normalizeJSONUserData({ summaries, flashcards, quizzes }));
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await connection.close();
+    }
+}
+
+function normalizeJSONUserData(data) {
+    const summaries = data.summaries.map(([summary]) => JSON.parse(summary));
+    const flashcards = data.flashcards.map(([flashcard]) => JSON.parse(flashcard));
+    const quizzes = data.quizzes.map(([quiz]) => JSON.parse(quiz));
+
+    return { summaries, flashcards, quizzes };
+}
+
+function normalizeUserPropertyNames({ summaries, flashcards, quizzes }) {
+
+    return {
+        summaries: summaries.map(({ ID, TITLE, CREATED_AT, CONTENT }) => ({ date: CREATED_AT, ID, TITLE, CONTENT })),
+        flashcards: flashcards.map(({ ID, TITLE, CREATED_AT, CONTENT }) => ({ date: CREATED_AT, ID, TITLE, CONTENT })),
+        quizzes: quizzes.map(({ ID, TITLE, CREATED_AT, CONTENT }) => ({ date: CREATED_AT, ID, TITLE, CONTENT }))
+    }
+
+}
