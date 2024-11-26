@@ -144,13 +144,28 @@ export async function getUserData(userId) {
     try {
         connection = await createConnection();
 
+        const userExists = (await connection.execute(sql`SELECT * FROM studysmart_user WHERE id = ${userId}`)).rows.length == 1;
+
+        if (!userExists) {
+            return {
+                status: 'failed',
+                message: `The user "${userId}" does not exist.`
+            };
+        }
+
         const summaries = (await connection.execute(sql`SELECT JSON_OBJECT(*) FROM studysmart_summary WHERE owner = ${userId}`)).rows;
         const flashcards = (await connection.execute(sql`SELECT JSON_OBJECT(*) FROM studysmart_flashcard_deck WHERE owner = ${userId}`)).rows;
         const quizzes = (await connection.execute(sql`SELECT JSON_OBJECT(*) FROM studysmart_quiz WHERE owner = ${userId}`)).rows;
 
-        return normalizeUserPropertyNames(normalizeJSONUserData({ summaries, flashcards, quizzes }));
+        return {
+            status: 'success',
+            result: normalizeUserPropertyNames(normalizeJSONUserData({ summaries, flashcards, quizzes }))
+        }
     } catch (e) {
-        console.error(e);
+        return {
+            status: 'failed',
+            message: e
+        }
     } finally {
         await connection.close();
     }
