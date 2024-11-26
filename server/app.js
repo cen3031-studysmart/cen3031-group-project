@@ -5,6 +5,8 @@ import pdfParse from 'pdf-parse';
 import cors from 'cors';
 import axios from 'axios';
 import dotenv from 'dotenv';
+import bodyParser from 'body-parser';
+import { createUser } from './db.js';
 
 dotenv.config();
 
@@ -20,6 +22,7 @@ const savedContents = [];
 
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(bodyParser.json());
 
 const upload = multer({ 
     dest: 'uploads/',
@@ -268,8 +271,16 @@ app.post("/api/save-study-content", (req, res) => {
     });
   });
   
-
-
+app.post('/api/user', async (req, res) => {
+  const userId = req.body.id;
+  
+  if (userId.length < 100 && userId.length > 0) {
+    await createUser(userId);
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(400);
+  }
+})
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

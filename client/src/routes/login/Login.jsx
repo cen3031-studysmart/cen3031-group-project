@@ -66,6 +66,15 @@ const LoginPage = () => {
       });
 
       if (signUpObject.status = 'complete') {
+        try {
+          await fetch('http://localhost:3000/api/user', {
+            method: 'POST',
+            body: JSON.stringify({ id: signUpObject.createdUserId }),
+            headers: { 'Content-Type': 'application/json' }
+          });
+        } catch (e) {
+          console.error(e);
+        }
         navigate('/');
       }
     } catch (e) {
