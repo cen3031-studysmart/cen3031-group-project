@@ -17,18 +17,90 @@ import {
 } from "lucide-react";
 import { fetchUserStudyMaterials } from "../../apis/backendAPI";
 import StudyMaterialModal from "./StudyMaterialModal";
+import { useUser } from '@clerk/clerk-react';
 
 const UserDashboard = () => {
   const navigate = useNavigate();
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [savedMaterials, setSavedMaterials] = useState(null);
+  const [savedMaterials, setSavedMaterials] = useState({
+    summaries: [
+      {
+        id: 1,
+        title: "Biology Chapter 1",
+        date: "2024-03-20",
+        content: "Biology is the study of life and organisms...",
+      },
+      {
+        id: 2,
+        title: "History Essay",
+        date: "2024-03-19",
+        content: "The Renaissance was a pivotal period in history...",
+      },
+    ],
+    flashcards: [
+      {
+        id: 1,
+        title: "Spanish Vocab",
+        date: "2024-03-18",
+        content: [
+          {
+            question: "How do you say 'apple' in Spanish?",
+            answer: "Manzana",
+          },
+          {
+            question: "What is 'library' in Spanish?",
+            answer: "Biblioteca",
+          },
+        ],
+      },
+      {
+        id: 2,
+        title: "Chemistry Terms",
+        date: "2024-03-17",
+        content: [
+          { question: "What is the formula for water?", answer: "H2O" },
+          {
+            question: "What is the pH of a neutral solution?",
+            answer: "7",
+          },
+        ],
+      },
+    ],
+    quizzes: [
+      {
+        id: 1,
+        title: "Math Quiz",
+        date: "2024-03-16",
+        content: [
+          {
+            question: "What is 2 + 2?",
+            options: ["3", "4", "5"],
+            correctAnswer: "4",
+          },
+          {
+            question: "What is the square root of 16?",
+            options: ["2", "4", "8"],
+            correctAnswer: "4",
+          },
+        ],
+      },
+    ],
+  });
 
-  const user = {
-    id: 1,
-    name: "John", // TODO: Replace with actual user data
-  };
+  const { isSignedIn, user: userObject, isLoaded } = useUser();
+  // console.log({ isSignedIn, isLoaded, userObject });
+
+  let user;
+  if (!isSignedIn) {
+    user = {
+      id: 1,
+      fullName: "John",
+    }
+  } else {
+    user = userObject;
+  }
 
   useEffect(() => {
     const getStudyMaterials = async (userId) => {
@@ -40,8 +112,12 @@ const UserDashboard = () => {
         console.error("Error fetching study materials:", error);
       }
     };
-    getStudyMaterials(user.id);
-  }, []);
+
+    // console.log('isSignedIn: ' + isSignedIn);
+    if (isSignedIn) {
+      getStudyMaterials(user.id);
+    }
+  }, [isSignedIn]);
 
   const handleNewMaterial = () => {
     navigate("/upload");
@@ -73,7 +149,7 @@ const UserDashboard = () => {
     </Card>
   );
 
-  if (!savedMaterials) {
+  if (!isLoaded) {
     return (
       <div className="container mx-auto p-6">
         <h1 className="text-3xl font-bold text-gray-800">Loading...</h1>
@@ -86,10 +162,12 @@ const UserDashboard = () => {
       <div className="container mx-auto p-6">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800">
-            Hello, {user.name}! 👋
+            {isSignedIn ? "Hello, " + user.fullName + "👋": "Welcome to StudyBuddies! 👋"}
           </h1>
           <p className="text-gray-600 mt-2">
-            Welcome back to your study dashboard
+            {isSignedIn
+              ? "Welcome back to your study dashboard"
+              : <span><Link to="/login">Sign in</Link> or <Link to="/login">create an account</Link> to get started</span>}
           </p>
         </div>
 
