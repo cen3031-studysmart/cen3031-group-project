@@ -159,7 +159,7 @@ export async function getUserData(userId) {
 
         return {
             status: 'success',
-            result: normalizeUserPropertyNames(normalizeJSONUserData({ summaries, flashcards, quizzes }))
+            result: userDataKeysToLowercase(normalizeUserPropertyNames(normalizeJSONUserData({ summaries, flashcards, quizzes })))
         }
     } catch (e) {
         return {
@@ -191,4 +191,36 @@ function normalizeUserPropertyNames({ summaries, flashcards, quizzes }) {
         quizzes: quizzes.map(({ ID, TITLE, CREATED_AT, CONTENT }) => ({ date: CREATED_AT, ID, TITLE, CONTENT }))
     }
 
+}
+
+function userDataKeysToLowercase({ summaries, flashcards, quizzes }) {
+    const newSummaries = summaries.map(JSONKeysToLowercase);
+    const newFlashcards = flashcards.map(JSONKeysToLowercase);
+    const newQuizzes = quizzes.map(JSONKeysToLowercase);
+
+    console.log('obj');
+    console.log({
+        summaries: newSummaries,
+        flashcards: newFlashcards,
+        quizzes: newQuizzes
+    });
+    
+    return {
+        summaries: newSummaries,
+        flashcards: newFlashcards,
+        quizzes: newQuizzes
+    };
+}
+
+function JSONKeysToLowercase(obj) {
+
+    let key, keys = Object.keys(obj);
+    let n = keys.length;
+    let newObject = {};
+    while (n--) {
+        key = keys[n];
+        newObject[key.toLowerCase()] = obj[key];
+    }
+
+    return newObject;
 }
