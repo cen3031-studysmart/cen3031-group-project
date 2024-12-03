@@ -30,10 +30,12 @@ const upload = multer({
         fileSize: 5 * 1024 * 1024
     }
 });
-app.use("/api/study-materials", (req, res, next) => {
-    req.params.userId = req.params.userId?.toLowerCase();
-    next();
-});
+
+// Note: commented out because user IDs are stored as a case-sensitive string
+// app.use("/api/study-materials", (req, res, next) => {
+//     req.params.userId = req.params.userId?.toLowerCase();
+//     next();
+// });
 
 app.use((req, res, next) => {
     console.log(`Incoming Request: ${req.method} ${req.originalUrl}`);
