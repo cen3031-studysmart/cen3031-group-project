@@ -167,7 +167,11 @@ export async function getUserData(userId) {
             message: e
         }
     } finally {
-        await connection.close();
+        if (connection) {
+            await connection.close();
+        } else {
+            console.warn('db.js: db connection is null. Make sure you\'re connected to the UF VPN')
+        }
     }
 }
 
