@@ -6,7 +6,7 @@ import cors from 'cors';
 import axios from 'axios';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
-import { createUser } from './db.js';
+import { createUser, getUserData } from './db.js';
 
 dotenv.config();
 
@@ -230,15 +230,20 @@ app.post('/api/generate-content', async (req, res) => {
 
 //TODO: Add db query to fetchStudyMaterials, use mockData (above) as example of format.
 // Route to fetch user study materials
-app.get("/api/study-materials/:userId", (req, res) => {
+app.get("/api/study-materials/:userId", async (req, res) => {
     const { userId } = req.params;
 
     if (!userId) {
         return res.status(400).json({ error: "UserId is required" });
     }
 
+    const userDataResponse = await getUserData(userId);
+    if (userDataResponse.status === 'failed') {
+      return res.status(400).json({ error: userDataResponse.message });
+    }
+
     console.log(`Fetching study materials for userId: ${userId}`);
-    res.status(200).json(mockData);
+    res.status(200).json(userDataResponse.result);
 });
 
 // Route to save study content
