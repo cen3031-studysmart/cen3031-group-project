@@ -6,7 +6,7 @@ import cors from 'cors';
 import axios from 'axios';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
-import { createUser, getUserData } from './db.js';
+import { createFlashcardDeck, createQuiz, createSummary, createUser, getUserData } from './db.js';
 
 dotenv.config();
 
@@ -246,7 +246,7 @@ app.get("/api/study-materials/:userId", async (req, res) => {
 });
 
 // Route to save study content
-app.post("/api/save-study-content", (req, res) => {
+app.post("/api/save-study-content", async (req, res) => {
     const { title, type, content, timestamp, fileName, userId } = req.body;
   
     // Validate the incoming data
@@ -265,6 +265,14 @@ app.post("/api/save-study-content", (req, res) => {
       fileName,
       userId: userId || null, // Optional user ID
     };
+
+    if (type === 'summary') {
+      await createSummary(title, userId, content.content);
+    } else if (type === 'quiz') {
+      await createQuiz(title, userId, content.content);
+    } else if (type === 'flashcards') {
+      await createFlashcardDeck(title, userId, content.content);
+    }
   
     savedContents.push(newContent);
   
