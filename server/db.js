@@ -97,7 +97,7 @@ export async function createFlashcardDeck(title, owner, content) {
     try {
         connection = await createConnection();
 
-        await connection.execute(sql`INSERT INTO "EMMANUELNIFAKOS".studysmart_flashcard_deck (title, owner, content) VALUES (${title}, ${owner}, ${content})`);
+        await connection.execute(sql`INSERT INTO "EMMANUELNIFAKOS".studysmart_flashcard_deck (title, owner, content) VALUES (${title}, ${owner}, ${JSON.stringify(content)})`);
         await connection.commit();
     } catch (e) {
         console.error(e);
@@ -121,7 +121,7 @@ export async function createQuiz(title, owner, content) {
     try {
         connection = await createConnection();
 
-        await connection.execute(sql`INSERT INTO "EMMANUELNIFAKOS".studysmart_quiz (title, owner, content) VALUES (${title}, ${owner}, ${content})`);
+        await connection.execute(sql`INSERT INTO "EMMANUELNIFAKOS".studysmart_quiz (title, owner, content) VALUES (${title}, ${owner}, ${JSON.stringify(content)})`);
         await connection.commit();
     } catch (e) {
         console.error(e);
