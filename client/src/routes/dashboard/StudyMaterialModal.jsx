@@ -52,7 +52,7 @@ const StudyMaterialModal = ({ isOpen, onClose, material, type }) => {
 
   const submitQuiz = () => {
     const correctAnswers = material.content.reduce((acc, question, index) => {
-      if (selectedAnswers[index] === question.correctAnswer) {
+      if (selectedAnswers[index] === question.answer) {
         return acc + 1;
       }
       return acc;
@@ -190,13 +190,13 @@ const StudyMaterialModal = ({ isOpen, onClose, material, type }) => {
                           : "outline"
                       }
                       className={`w-full justify-start ${
-                        isQuizSubmitted && option === question.correctAnswer
+                        isQuizSubmitted && option === question.answer
                           ? "bg-green-100"
                           : ""
                       } ${
                         isQuizSubmitted &&
                         selectedAnswers[index] === option &&
-                        option !== question.correctAnswer
+                        option !== question.answer
                           ? "bg-red-100"
                           : ""
                       }`}
