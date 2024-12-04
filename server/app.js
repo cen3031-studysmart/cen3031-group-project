@@ -228,7 +228,6 @@ app.post('/api/generate-content', async (req, res) => {
     }
 });
 
-//TODO: Add db query to fetchStudyMaterials, use mockData (above) as example of format.
 // Route to fetch user study materials
 app.get("/api/study-materials/:userId", async (req, res) => {
     const { userId } = req.params;
@@ -257,8 +256,6 @@ app.post("/api/save-study-content", (req, res) => {
   
     console.log("Saving study content:", req.body);
   
-    //TODO: Add Query To Save to DB
-    // Simulate saving to a database
     const newContent = {
       id: savedContents.length + 1, // Simulated ID
       title,
