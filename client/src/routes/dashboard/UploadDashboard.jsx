@@ -31,9 +31,11 @@ import {
   extractTextFromPDFRequest,
   generateContentRequest,
 } from "../../apis/backendAPI";
+import { useUser } from '@clerk/clerk-react';
 
 const UploadDashboard = () => {
   const navigate = useNavigate();
+  const { isSignedIn, user, isLoaded } = useUser();
   const [uploadedFile, setUploadedFile] = useState(null);
   const [activeMode, setActiveMode] = useState("summary");
   const [generatedContent, setGeneratedContent] = useState(null);
@@ -97,13 +99,17 @@ const UploadDashboard = () => {
       return;
     }
 
+    if (!isSignedIn || !isLoaded) {
+      console.error('User is not signed in or Clerk is not loaded');
+    }
+
     const contentToSave = {
       title: studyTitle,
       type: activeMode,
       content: generatedContent,
       timestamp: new Date().toISOString(),
       fileName: uploadedFile?.name,
-      userId: 1, //TODO: Replace with actual userId
+      userId: user.id,
     };
 
     saveStudyContent(contentToSave);
