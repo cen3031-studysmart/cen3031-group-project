@@ -104,6 +104,23 @@ const router = createBrowserRouter([
 
 ```
 
+### Installation Instructions
+* Clone the Repository:
+    git clone https://github.com/cen3031-studysmart/cen3031-group-project.git
+Navigate to the Directory: cd /cen3031-group-project
+* Install Dependencies:
+npm install
+npm install –prefix client
+npm install –prefix server
+* Add environment files to project
+* Run the Application:
+npm run dev
+Login and Access Credentials
+Demo Account:
+Username: john@smith.com
+Password: JSm1thohn12@
+* Environment Files
+* Create a .env file in the /server directory and populate it with the following keys (Note: this requires the CISE account to have access to the StudySmart Oracle tables)
 ---
 
 # Note
