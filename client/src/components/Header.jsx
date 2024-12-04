@@ -32,10 +32,12 @@ function Header() {
     <div className="border-b">
       <div className="container mx-auto p-4">
         <div className="flex justify-between items-center">
-          <div className="flex items-center">
-            <GraduationCap className="h-8 w-8 mr-2" />
-            <span className="text-2xl font-bold">StudyBuddies</span>
-          </div>
+          <Link to='/'>
+            <div className="flex items-center">
+              <GraduationCap className="h-8 w-8 mr-2" />
+              <span className="text-2xl font-bold">StudyBuddies</span>
+            </div>
+          </Link>
           {clerk.user?
             <Button variant="outline" onClick={() => {
               clerk.signOut();
